@@ -10,16 +10,23 @@ public class User implements Serializable{
 	private String lastName;
 	private String username;
 	private String password;
+	public Boolean admin;
 	
 	public User() {
 		//super();
 	}
 	
 	public User(String firstName, String lastName, String password) {
-		//super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = firstName + lastName + (new Random().nextInt(9000)+1000);
+		this.password = password;
+	}
+
+	public User(String firstName, String lastName, String username, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
 		this.password = password;
 	}
 

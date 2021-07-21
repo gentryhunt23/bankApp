@@ -32,12 +32,13 @@ public class bankDriver {
 					String username = in.nextLine();
 					System.out.print("Please enter your password: ");
 					String password = in.nextLine();
-					try {
-						u = UserDao.login(username, password);
+					u = UserDao.login(username, password);
+					if(u == null) {
+							System.out.println("Username or password was incorect. Goodbye");
+							done = true;
+					}
+					else {
 						System.out.println("Welcome " + u.getFirstName());
-					} catch(Exception e) {
-						System.out.println("Username or password was incorect. Goodbye");
-						done = true;
 					}
 				} else {
 					System.out.print("Please enter you first name: ");
@@ -46,6 +47,8 @@ public class bankDriver {
 					String last = in.nextLine();
 					System.out.println("Please enter a password: ");
 					String password = in.nextLine();
+
+
 					try {
 						u = UserDao.signUp(first, last, password);
 						System.out.println("You may now log in with the username: " + u.getUsername());
@@ -55,37 +58,34 @@ public class bankDriver {
 						done = true;
 					}
 				}
-		} 
-			//else {
-//				System.out.println("To view posts press 1, to create a post press 2");
-//				int choice = Integer.parseInt(in.nextLine());
-//				//If the user chooses 1, we will show them the list of posts
-//				if(choice == 1) {
-//					List<Transactions> posts = pServ.getAllPosts();
-//					for(Transactions post: posts) {
-//						System.out.println(post.getUser() + ":");
-//						System.out.println(post.getContent());
-//						System.out.println();
-//					}
-//					System.out.println("Are you finished? Press 1 for yes, press 2 for no");
-//					choice = Integer.parseInt(in.nextLine());
-//					done = (choice == 1) ? true : false;
-//				} else {
-//					System.out.println("Please enter your content below:");
-//					String content = in.nextLine();
-//					Transactions p = new Transactions(u.getUsername(), content);
-//					pServ.addPost(p);
-//					System.out.println("Post was received, are you finished? Press 1 for yes, press 2 for no");
-//					choice = Integer.parseInt(in.nextLine());
-//					done = (choice == 1) ? true : false;
-//				}
-//			}
+		}
+			else {
+				if (u.admin == true) {
+					System.out.println("To view posts press 1, to create a post press 2, 3");
+
+				} else {
+					System.out.println("To view posts press 1, to create a post press 2");
+					int choice = Integer.parseInt(in.nextLine());
+					//If the user chooses 1, we will show them the list of posts
+					if (choice == 1) {
+						System.out.println(UserDao.getBalance(u));
+						System.out.println("Are you finished? Press 1 for yes, press 2 for no");
+						choice = Integer.parseInt(in.nextLine());
+						done = (choice == 1) ? true : false;
+					} else {
+						System.out.println("Please enter your content below:");
+						String content = in.nextLine();
+						UserDao.add(Integer.parseInt(content), u);
+						System.out.println("Post was received, are you finished? Press 1 for yes, press 2 for no");
+						choice = Integer.parseInt(in.nextLine());
+						done = (choice == 1) ? true : false;
+					}
+				}
+			}
 		}
 		
 		System.out.println("Goodbye :)");
 		in.close();
-	
-	
 	}
 	
 };
