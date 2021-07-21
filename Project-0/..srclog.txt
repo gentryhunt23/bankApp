@@ -1,1 +1,4 @@
 2021-07-21 11:11:50 INFO  Logging:28 - Getting remote connection
+2021-07-21 11:35:43 INFO  Logging:28 - Getting remote connection
+2021-07-21 11:35:50 INFO  Logging:28 - Getting remote connection
+2021-07-21 11:36:39 INFO  Logging:28 - Connecting to Database...

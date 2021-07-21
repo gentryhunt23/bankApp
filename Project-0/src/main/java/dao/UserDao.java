@@ -25,7 +25,7 @@ public class UserDao {
 
 	    try {
 	      String url = "jdbc:postgresql://database-1.c9tltg42c7kv.us-east-2.rds.amazonaws.com:5432/postgres?user=postgres&password=password";
-	     Logging.logger.info("Getting remote connection");
+	     Logging.logger.info("Connecting to Database...");
 	      conn = DriverManager.getConnection(url);
 	      //Logging.logger.info("Remote Connection Successful");
 	      return conn;
