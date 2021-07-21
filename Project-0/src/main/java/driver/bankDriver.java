@@ -23,7 +23,7 @@ public class bankDriver {
 		
 		while(!done) {
 			if(u == null) {
-				System.out.println("Login or Signup? Press 1 to Login, Press 2 to Signup");
+				System.out.println("Welcome to The Extremely Small Bank of America! \nLogin or Signup? Press 1 to Login, Press 2 to Signup");
 				int choice = Integer.parseInt(in.nextLine());
 				if(choice == 1) {
 					System.out.print("Please enter your username: ");
@@ -32,7 +32,7 @@ public class bankDriver {
 					String password = in.nextLine();
 					u = UserDao.login(username, password);
 					if(u == null) {
-							System.out.println("Username or password was incorect. Goodbye");
+							System.out.println("Username or password was incorrect. Goodbye");
 							done = true;
 					}
 					else {
@@ -74,7 +74,7 @@ public class bankDriver {
 						System.out.println("Please enter the amount you would like to add to your account");
 						String content = in.nextLine();
 						UserDao.add(Integer.parseInt(content), u);
-						System.out.println("Balance updated! Would you like to make another transaction? Press 1 for yes, press 2 for no");
+						System.out.println("Balance updated! Would you like to make another transaction? Press 1 for no, press 2 for yes");
 						choice = Integer.parseInt(in.nextLine());
 						done = (choice == 1) ? true : false;
 				//	}
