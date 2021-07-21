@@ -13,7 +13,7 @@ import java.util.List;
 import exceptions.InvalidCredentialsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameAlreadyExistsException;
-import logging.Logging;
+//import logging.Logging;
 import models.User;
 
 
@@ -24,9 +24,9 @@ public class UserDao {
 
 	    try {
 	      String url = "jdbc:postgresql://database-1.c9tltg42c7kv.us-east-2.rds.amazonaws.com:5432/postgres?user=postgres&password=password";
-	      Logging.logger.info("Getting remote connection");
+	     //Logging.logger.info("Getting remote connection");
 	      conn = DriverManager.getConnection(url);
-	      Logging.logger.info("Remote Connection Successful");
+	      //Logging.logger.info("Remote Connection Successful");
 	      return conn;
 
 	    } catch (SQLException e) {
@@ -71,7 +71,7 @@ public class UserDao {
 			ResultSet rs = statement.executeQuery();
 
 			if(!rs.isBeforeFirst()){
-				Logging.logger.info("Login Failed: wrong username or password");
+				//Logging.logger.info("Login Failed: wrong username or password");
 				throw new InvalidCredentialsException();
 			}
 			rs.next();
@@ -96,7 +96,7 @@ public class UserDao {
 			ResultSet rs = statement.executeQuery();
 
 			if(!rs.isBeforeFirst()){
-				Logging.logger.info("Get Balance Error");
+				//Logging.logger.info("Get Balance Error");
 				throw new Error("User data corruption");
 			}
 			rs.next();
@@ -127,8 +127,8 @@ public class UserDao {
 			int rs = statement.executeUpdate();
 
 			if(rs == 0){
-				Logging.logger.info("Update Balance Error");
-				throw new Error("Upodate Balance Failed");
+				//Logging.logger.info("Update Balance Error");
+				throw new Error("Update Balance Failed");
 			}
 		}
 		catch(Exception e) {

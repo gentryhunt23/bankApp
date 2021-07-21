@@ -7,8 +7,6 @@ import dao.UserDao;
 import exceptions.InvalidCredentialsException;
 import models.Transactions;
 import models.User;
-import services.PostService;
-import services.UserService;
 
 public class bankDriver {
 	
@@ -60,26 +58,26 @@ public class bankDriver {
 				}
 		}
 			else {
-				if (u.admin == true) {
-					System.out.println("To view posts press 1, to create a post press 2, 3");
+				//if (u.admin == true) {
+					System.out.println("To view balance press 1, to deposit(+) or withdraw(-) an amount press 2");
 
-				} else {
-					System.out.println("To view posts press 1, to create a post press 2");
+				//} else {
+					//System.out.println("To view posts press 1, to create a post press 2");
 					int choice = Integer.parseInt(in.nextLine());
 					//If the user chooses 1, we will show them the list of posts
 					if (choice == 1) {
-						System.out.println(UserDao.getBalance(u));
+						System.out.println("$ " + UserDao.getBalance(u));
 						System.out.println("Are you finished? Press 1 for yes, press 2 for no");
 						choice = Integer.parseInt(in.nextLine());
 						done = (choice == 1) ? true : false;
 					} else {
-						System.out.println("Please enter your content below:");
+						System.out.println("Please enter the amount you would like to add to your account");
 						String content = in.nextLine();
 						UserDao.add(Integer.parseInt(content), u);
-						System.out.println("Post was received, are you finished? Press 1 for yes, press 2 for no");
+						System.out.println("Balance updated! Would you like to make another transaction? Press 1 for yes, press 2 for no");
 						choice = Integer.parseInt(in.nextLine());
 						done = (choice == 1) ? true : false;
-					}
+				//	}
 				}
 			}
 		}
