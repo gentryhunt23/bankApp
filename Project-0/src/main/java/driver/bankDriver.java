@@ -21,70 +21,167 @@ public class bankDriver {
 		
 		User u = null;
 		
-		while(!done) {
-			if(u == null) {
-				System.out.println("Welcome to The Extremely Small Bank of America! \nLogin or Signup? Press 1 to Login, Press 2 to Signup");
-				int choice = Integer.parseInt(in.nextLine());
-				if(choice == 1) {
-					System.out.print("Please enter your username: ");
-					String username = in.nextLine();
-					System.out.print("Please enter your password: ");
-					String password = in.nextLine();
-					u = UserDao.login(username, password);
-					if(u == null) {
-							System.out.println("Username or password was incorrect. Goodbye");
-							done = true;
-					}
-					else {
-						System.out.println("Welcome " + u.getFirstName());
-					}
-				} else {
-					System.out.print("Please enter you first name: ");
-					String first = in.nextLine();
-					System.out.println("Please enter your last name: ");
-					String last = in.nextLine();
-					System.out.println("Please enter a password: ");
-					String password = in.nextLine();
-
-
-					try {
-						u = UserDao.signUp(first, last, password);
-						System.out.println("You may now log in with the username: " + u.getUsername());
-					} catch (Exception e) {
-						System.out.println("Sorry, we could not process your request");
-						System.out.println("Please try again later");
-						done = true;
-					}
-				}
-		}
-			else {
-				//if (u.admin == true) {
-					System.out.println("To view balance press 1, to deposit(+) or withdraw(-) an amount press 2");
-
-				//} else {
-					//System.out.println("To view posts press 1, to create a post press 2");
-					int choice = Integer.parseInt(in.nextLine());
-					//If the user chooses 1, we will show them the list of posts
-					if (choice == 1) {
-						System.out.println("$ " + UserDao.getBalance(u));
-						System.out.println("Are you finished? Press 1 for yes, press 2 for no");
+		
+			System.out.println("Welcome to The Extremely Small Bank of America! \nLogin or Signup? Press 1 to Login, Press 2 to Signup");
+			int choice = Integer.parseInt(in.nextLine());
+			while(!done) {
+			switch(choice) {
+			case 1:
+				//sign-in functionality
+				System.out.print("Please enter your username: ");
+				String username = in.nextLine();
+				System.out.print("Please enter your password: ");
+				String password = in.nextLine();
+				u = UserDao.login(username, password);
+				if(u == null) {
+					System.out.println("Username or password was incorrect. Goodbye");
+					//done = true;
+			}else {
+				System.out.println("Welcome " + u.getFirstName());
+				try {
+					
+					do {	
+						System.out.println("What would you like to do next (select the corresponding number)?\n"
+								+ "1. View Balance \n"
+								+ "2. Deposit \n"
+								+ "3. Withdraw \n"
+								+ "4. Transfer Funds \n"
+								+ "5. Logout");
 						choice = Integer.parseInt(in.nextLine());
-						done = (choice == 1) ? true : false;
-					} else {
+
+					switch(choice) {
+					case 1:
+						System.out.println("$ " + UserDao.getBalance(u));
+						System.out.println("Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 2:
 						System.out.println("Please enter the amount you would like to add to your account");
 						String content = in.nextLine();
 						UserDao.add(Integer.parseInt(content), u);
-						System.out.println("Balance updated! Would you like to make another transaction? Press 1 for no, press 2 for yes");
+						System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 3:
+						System.out.println("Please enter the amount you would like withdraw from your account");
+						content = in.nextLine();
+						UserDao.subtract(Integer.parseInt(content), u);
+						System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 4:
+					case 5: System.out.println("Thank you have a nice day!");
+
+					
+					}
+					}while(!done && choice != 5);
+					
+					
+				}catch (Exception e) {
+					System.out.println("Sorry, we could not process your request");
+					System.out.println("Please try again later");
+					done = true;
+					break;
+			} 
+				
+			} 
+				break;
+			case 2:
+				//sign-up functionality
+				System.out.print("Please enter you first name: ");
+				String first = in.nextLine();
+				System.out.println("Please enter your last name: ");
+				String last = in.nextLine();
+				System.out.println("Please create a password: ");
+				password = in.nextLine();
+
+				try {
+					u = UserDao.signUp(first, last, password);
+					System.out.println("You may now log in with the username: " + u.getUsername());
+					UserDao.login(u.getUsername(), password);
+					System.out.println("You are now logged in as " + u.getUsername()+ ".\n\n");
+					
+					do {	
+						System.out.println("What would you like to do next (select the corresponding number)?\n"
+								+ "1. View Balance \n"
+								+ "2. Deposit \n"
+								+ "3. Withdraw \n"
+								+ "4. Transfer Funds \n"
+								+ "5. Logout");
 						choice = Integer.parseInt(in.nextLine());
-						done = (choice == 1) ? true : false;
-				//	}
-				}
-			}
-		}
-		
-		System.out.println("Goodbye :)");
-		in.close();
-	}
+
+					switch(choice) {
+					case 1:
+						System.out.println("$ " + UserDao.getBalance(u));
+						System.out.println("Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 2:
+						System.out.println("Please enter the amount you would like to add to your account");
+						String content = in.nextLine();
+						UserDao.add(Integer.parseInt(content), u);
+						System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 3:
+						System.out.println("Please enter the amount you would like withdraw from your account");
+						content = in.nextLine();
+						UserDao.subtract(Integer.parseInt(content), u);
+						System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+						if(Integer.parseInt(in.nextLine()) == 1){
+							done = true;
+							System.out.println("Thank you have a great day!");
+							break;
+						}else{
+							done = false;
+							break;
+						}
+					case 4:
+					case 5: System.out.println("Thank you have a nice day!");
+
+					
+					}
+					}while(!done && choice != 5);
+					
+					
+				} catch (Exception e) {
+					System.out.println("Sorry, we could not process your request");
+					System.out.println("Please try again later");
+					done = true;
+					break;
+			} 
+			};
+
+	}}}
 	
-};
-//comment for push purposes
+

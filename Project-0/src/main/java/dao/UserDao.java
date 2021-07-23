@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+
 import exceptions.InvalidCredentialsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameAlreadyExistsException;
@@ -111,28 +112,64 @@ public class UserDao {
 
 	public static void add(int val, User user) {
 		int initialBal = getBalance(user);
-		int total = initialBal + val;
+		if(initialBal >=0) {
+			int total = initialBal + val;
 
-		if (total < 0 )
-			throw new Error("Can't withdraw more than you have in the account");
+			if (total < 0 )
+				throw new Error("Can't withdraw more than you have in the account");
 
-		try {
-			Connection c = connect();
-			String query = "update users set balance="+ total +" where username = ? and password = ? ";
+			try {
+				Connection c = connect();
+				String query = "update users set balance="+ total +" where username = ? and password = ? ";
 
-			PreparedStatement statement = c.prepareStatement(query);
-			statement.setString(1, user.getUsername());
-			statement.setString(2, user.getPassword());
+				PreparedStatement statement = c.prepareStatement(query);
+				statement.setString(1, user.getUsername());
+				statement.setString(2, user.getPassword());
 
-			int rs = statement.executeUpdate();
+				int rs = statement.executeUpdate();
 
-			if(rs == 0){
-				Logging.logger.info("Update Balance Error");
-				throw new Error("Update Balance Failed");
+				if(rs == 0){
+					Logging.logger.info("Update Balance Error");
+					throw new Error("Update Balance Failed");
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else {//negative dollar exception
+			System.out.println("Cannot have egative dollar amount!");
 			}
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+	public static void subtract(int val, User user) {
+		int initialBal = getBalance(user);
+		if(initialBal >=0) {
+			int total = initialBal - val;
+
+			if (total < 0 )
+				throw new Error("Can't withdraw more than you have in the account");
+
+			try {
+				Connection c = connect();
+				String query = "update users set balance="+ total +" where username = ? and password = ? ";
+
+				PreparedStatement statement = c.prepareStatement(query);
+				statement.setString(1, user.getUsername());
+				statement.setString(2, user.getPassword());
+
+				int rs = statement.executeUpdate();
+
+				if(rs == 0){
+					Logging.logger.info("Update Balance Error");
+					throw new Error("Update Balance Failed");
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else {//negative dollar exception
+			System.out.println("Cannot have egative dollar amount!");
+			}
 		}
-	}
+		
+	
 };

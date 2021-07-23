@@ -1,4 +1,5 @@
 package models;
+
 import java.io.Serializable;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ public class User implements Serializable{
 	private String lastName;
 	private String username;
 	private String password;
-	public Boolean admin;
+	public boolean admin;
 	
 	public User() {
 		//super();
