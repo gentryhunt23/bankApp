@@ -167,7 +167,7 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		} else {//negative dollar exception
-			System.out.println("Cannot have egative dollar amount!");
+			System.out.println("Cannot have negative dollar amount!");
 			}
 		}
 		

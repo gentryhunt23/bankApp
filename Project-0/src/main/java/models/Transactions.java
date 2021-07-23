@@ -7,7 +7,7 @@ public class Transactions implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String user;
 	private String content;
-	private int balance = 25;
+	private int balance;
 	
 	public Transactions() {
 		
