@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-
 import exceptions.InvalidCredentialsException;
 import exceptions.UserDoesNotExistException;
 import exceptions.UserNameAlreadyExistsException;
