@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import exceptions.InvalidCredentialsException;
 import exceptions.UserDoesNotExistException;
@@ -115,8 +116,9 @@ public class UserDao {
 		if(initialBal >=0) {
 			int total = initialBal + val;
 
-			if (total < 0 )
+			if (total < 0 ) {
 				throw new Error("Can't withdraw more than you have in the account");
+			}
 
 			try {
 				Connection c = connect();
@@ -137,7 +139,7 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		} else {//negative dollar exception
-			System.out.println("Cannot have egative dollar amount!");
+			System.out.println("Cannot have negative dollar amount!");
 			}
 		}
 	public static void subtract(int val, User user) {
@@ -170,6 +172,73 @@ public class UserDao {
 			System.out.println("Cannot have negative dollar amount!");
 			}
 		}
+	public static void transfer(int val, String username) {
+		
+		
+		//int initialBal = getBalance(user);
+//		if(initialBal >=0) {
+//			int total = initialBal + val;
+
+//			if (total < 0 )
+//				throw new Error("Can't withdraw more than you have in the account");
+
+			try {
+				Connection c = connect();
+		
+				String query1 = "select * from users where username = ?";
+				PreparedStatement statement = c.prepareStatement(query1);
+				statement.setString(1, username);
+				ResultSet rs = statement.executeQuery();
+				int total = rs.getInt("balance") + val;
+				System.out.println(total);
+				System.out.println(rs);
+
+
+				String query2 = "update users set balance="+ total +" where username = ?";
+				statement = c.prepareStatement(query2);
+				statement.setString(1, username);
+				statement.executeUpdate();
+//				int rs = statement.executeQuery();
+//				PreparedStatement statement = c.prepareStatement(query2);
+//
+//				statement.setString(1, user.getUsername());
+//				
+				
+
+//				if(rs == 0){
+//					Logging.logger.info("Money Transfer Error");
+//					throw new Error("Update Balance Failed");
+//				}
+			} 
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		 
+	//else {//negative dollar exception
+//			System.out.println("Cannot have negative dollar amount!");
+			}
+	
 		
 	
+//	public void transfer() {
+//		System.out.print("Please enter the account number:");
+//        int acc_num = scan.nextInt();
+//        System.out.print("Please enter the transfer amount:");
+//        int money = scan.nextInt();
+//        if (money > 0) {
+//            String sql1 = "SELECT acc_balance FROM account WHERE acc_number = ?";
+//            Connection con = conUtil.getConnection();
+//            try {
+//                PreparedStatement ps= con.prepareStatement(sql1);
+//                ps.setInt(1, acc_num);
+//                ResultSet rs = ps.executeQuery();
+//                if (rs.next()) {
+//                    int acc_balance = rs.getInt("acc_balance");
+//                    if (money <= acc_balance) {
+//                        System.out.print("Please enter the receiving account number number:");
+//                        int toAcc_num = scan.nextInt();
+//                        String sql2 = "SELECT acc_balance FROM account WHERE acc_number = ?";
+//                        PreparedStatement s = con.prepareStatement(sql2);
+//                    }
+                
 };
