@@ -28,7 +28,6 @@ public class UserDao {
 	      String url = "jdbc:postgresql://database-1.c9tltg42c7kv.us-east-2.rds.amazonaws.com:5432/postgres?user=postgres&password=password";
 	     Logging.logger.info("Connecting to Database...");
 	      conn = DriverManager.getConnection(url);
-	      //Logging.logger.info("Remote Connection Successful");
 	      return conn;
 
 	    } catch (SQLException e) {
@@ -116,8 +115,8 @@ public class UserDao {
 		if(initialBal >=0) {
 			int total = initialBal + val;
 
-			if (total < 0 ) {
-				throw new Error("Can't withdraw more than you have in the account");
+			if (val < 0 ) {
+				throw new Error("Can't deposit negative dollar amount");
 			}
 
 			try {
@@ -172,73 +171,37 @@ public class UserDao {
 			System.out.println("Cannot have negative dollar amount!");
 			}
 		}
-	public static void transfer(int val, String username) {
-		
-		
-		//int initialBal = getBalance(user);
-//		if(initialBal >=0) {
-//			int total = initialBal + val;
+	//subtract from one current account
+	//select recipient user based on user input
+	//add subtracted amount from the selected user based on username
+	public static void transfer(int val, String username, User user) {
+		subtract(val, user);
+		User recipient = getUser(username);
+		add(val, recipient);
+	}
 
-//			if (total < 0 )
-//				throw new Error("Can't withdraw more than you have in the account");
+	public static User getUser(String username) {
+		try {
+			Connection c = connect();
+			String query = "select * from users where username = ?";
 
-			try {
-				Connection c = connect();
-		
-				String query1 = "select * from users where username = ?";
-				PreparedStatement statement = c.prepareStatement(query1);
-				statement.setString(1, username);
-				ResultSet rs = statement.executeQuery();
-				int total = rs.getInt("balance") + val;
-				System.out.println(total);
-				System.out.println(rs);
+			PreparedStatement statement = c.prepareStatement(query);
+			statement.setString(1, username);
 
+			ResultSet rs = statement.executeQuery();
 
-				String query2 = "update users set balance="+ total +" where username = ?";
-				statement = c.prepareStatement(query2);
-				statement.setString(1, username);
-				statement.executeUpdate();
-//				int rs = statement.executeQuery();
-//				PreparedStatement statement = c.prepareStatement(query2);
-//
-//				statement.setString(1, user.getUsername());
-//				
-				
-
-//				if(rs == 0){
-//					Logging.logger.info("Money Transfer Error");
-//					throw new Error("Update Balance Failed");
-//				}
-			} 
-			catch(Exception e) {
-				e.printStackTrace();
+			if(!rs.isBeforeFirst()){
+				Logging.logger.info("Failed to find User");
+				throw new InvalidCredentialsException();
 			}
-		 
-	//else {//negative dollar exception
-//			System.out.println("Cannot have negative dollar amount!");
-			}
-	
-		
-	
-//	public void transfer() {
-//		System.out.print("Please enter the account number:");
-//        int acc_num = scan.nextInt();
-//        System.out.print("Please enter the transfer amount:");
-//        int money = scan.nextInt();
-//        if (money > 0) {
-//            String sql1 = "SELECT acc_balance FROM account WHERE acc_number = ?";
-//            Connection con = conUtil.getConnection();
-//            try {
-//                PreparedStatement ps= con.prepareStatement(sql1);
-//                ps.setInt(1, acc_num);
-//                ResultSet rs = ps.executeQuery();
-//                if (rs.next()) {
-//                    int acc_balance = rs.getInt("acc_balance");
-//                    if (money <= acc_balance) {
-//                        System.out.print("Please enter the receiving account number number:");
-//                        int toAcc_num = scan.nextInt();
-//                        String sql2 = "SELECT acc_balance FROM account WHERE acc_number = ?";
-//                        PreparedStatement s = con.prepareStatement(sql2);
-//                    }
+			rs.next();
+
+			return new User(rs.getString("first_name"),rs.getString("last_name"),rs.getString("username"),rs.getString("password"));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
                 
 };
