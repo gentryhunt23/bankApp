@@ -116,7 +116,7 @@ public class bankDriver {
 
 					do {
 						System.out.println("What would you like to do next (select the corresponding number)?\n"
-								+ "1. View Balance \n" + "2. Deposit \n" + "3. Withdraw \n" + "4. Transfer Funds \n"
+								+ "1. View Balance \n" + "2. Deposit \n" + "3. Withdraw \n" + "4. Wire Transfer \n"
 								+ "5. Logout");
 						choice = Integer.parseInt(in.nextLine());
 
