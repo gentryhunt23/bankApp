@@ -136,7 +136,7 @@ public class bankDriver {
 							System.out.println("Please enter the amount you would like to add to your account");
 							String content = in.nextLine();
 							UserDao.add(Integer.parseInt(content), u);
-							System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+							System.out.println("Are you done?\n" + " 1. YES \n 2. NO");
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;
 								System.out.println("Thank you have a great day!");
@@ -164,9 +164,8 @@ public class bankDriver {
 							System.out.println("Enter the username of the recipient");
 							username = in.nextLine();
 							UserDao.transfer(Integer.parseInt(value), username, u);
-							System.out.println("Transfer Successful!\n");
 							System.out.println("$ " + UserDao.getBalance(u));
-							System.out.println("Balance Updated! \n Are you done?\n" + " 1. YES \n 2. NO");
+							System.out.println("Are you done?\n" + " 1. YES \n 2. NO");
 			
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;

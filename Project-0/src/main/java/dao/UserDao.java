@@ -116,7 +116,11 @@ public class UserDao {
 			int total = initialBal + val;
 
 			if (val < 0 ) {
-				throw new Error("Can't deposit negative dollar amount");
+				Logging.logger.warn("Negative dollar amount deposit attempt");
+				System.out.println("Cannot Deposit Negative Dollar Amount");
+
+				return; 
+
 			}
 
 			try {
@@ -128,10 +132,10 @@ public class UserDao {
 				statement.setString(2, user.getPassword());
 
 				int rs = statement.executeUpdate();
+				System.out.println("Current Balance");
 
 				if(rs == 0){
-					Logging.logger.info("Update Balance Error");
-					throw new Error("Update Balance Failed");
+					Logging.logger.warn("Update Balance Error");
 				}
 			}
 			catch(Exception e) {
@@ -146,9 +150,11 @@ public class UserDao {
 		if(initialBal >=0) {
 			int total = initialBal - val;
 
-			if (total < 0 )
-				throw new Error("Can't withdraw more than you have in the account");
-
+			if (total < 0 ) {
+				Logging.logger.warn("Update Balance Error");
+				System.out.println("Can't withdraw more than you have in the account \n");
+				return;
+			}
 			try {
 				Connection c = connect();
 				String query = "update users set balance="+ total +" where username = ? and password = ? ";
@@ -198,9 +204,14 @@ public class UserDao {
 
 			return new User(rs.getString("first_name"),rs.getString("last_name"),rs.getString("username"),rs.getString("password"));
 		}
+		catch(InvalidCredentialsException e){
+			Logging.logger.warn("Invalid Username");
+			System.out.println("That username cannot be found. Try again!");
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	};
                 
