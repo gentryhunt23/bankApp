@@ -52,6 +52,7 @@ public class bankDriver {
 								if (Integer.parseInt(in.nextLine()) == 1) {
 									done = true;
 									System.out.println("Thank you have a great day!");
+									in.close();
 									break;
 								} else {
 									done = false;
@@ -65,6 +66,7 @@ public class bankDriver {
 								if (Integer.parseInt(in.nextLine()) == 1) {
 									done = true;
 									System.out.println("Thank you have a great day!");
+									in.close();
 									break;
 								} else {
 									done = false;
@@ -78,14 +80,36 @@ public class bankDriver {
 								if (Integer.parseInt(in.nextLine()) == 1) {
 									done = true;
 									System.out.println("Thank you have a great day!");
+									in.close();
 									break;
+									
 								} else {
 									done = false;
 									break;
 								}
 							case 4:
+									System.out.println("How much money would you like to transfer?");
+									String value = in.nextLine();
+									System.out.println("Enter the username of the recipient");
+									username = in.nextLine();
+									UserDao.transfer(Integer.parseInt(value), username, u);
+									System.out.println("$ " + UserDao.getBalance(u));
+									System.out.println("Are you done?\n" + " 1. YES \n 2. NO");
+					
+									if (Integer.parseInt(in.nextLine()) == 1) {
+										done = true;
+										System.out.println("Thank you have a great day!");
+										in.close();
+										break;
+									} else {
+										done = false;
+										break;
+									}
 							case 5:
 								System.out.println("Thank you have a nice day!");
+								done = true;
+								in.close();
+
 
 							}
 						} while (!done && choice != 5);
@@ -127,6 +151,7 @@ public class bankDriver {
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;
 								System.out.println("Thank you have a great day!");
+								in.close();
 								break;
 							} else {
 								done = false;
@@ -140,6 +165,7 @@ public class bankDriver {
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;
 								System.out.println("Thank you have a great day!");
+								in.close();
 								break;
 							} else {
 								done = false;
@@ -153,6 +179,7 @@ public class bankDriver {
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;
 								System.out.println("Thank you have a great day!");
+								in.close();
 								break;
 							} else {
 								done = false;
@@ -170,6 +197,7 @@ public class bankDriver {
 							if (Integer.parseInt(in.nextLine()) == 1) {
 								done = true;
 								System.out.println("Thank you have a great day!");
+								in.close();
 								break;
 							} else {
 								done = false;
@@ -179,6 +207,7 @@ public class bankDriver {
 
 						case 5:
 							System.out.println("Thank you have a nice day!");
+							in.close();
 							done = true;
 						}
 					} while (!done && choice != 5);

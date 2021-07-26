@@ -1,19 +1,14 @@
 package dao;
-import java.io.FileNotFoundException;
+import static org.junit.Assert.fail;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import exceptions.InvalidCredentialsException;
-import exceptions.UserDoesNotExistException;
-import exceptions.UserNameAlreadyExistsException;
 import logging.Logging;
 //import logging.Logging;
 import models.User;
@@ -207,6 +202,7 @@ public class UserDao {
 		catch(InvalidCredentialsException e){
 			Logging.logger.warn("Invalid Username");
 			System.out.println("That username cannot be found. Try again!");
+			//fail();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
